@@ -1,91 +1,67 @@
-/* Update font size for headings */
 body {
     background-color: aliceblue;
 }
-
-.h1,
-h1 {
-  font-size: 2.5rem;
+.h1, h1 {
+    font-size: 2.5rem;
 }
 
-/* Reset styles for fieldset */
 fieldset {
-  min-width: 0;
-  padding: 1rem 0;
-  margin: 0;
-  border: 0;
+    min-width: 0;
+    padding: 1rem 0;
+    margin: 0;
+    border: 0;
 }
 
-/* Center the login form */
 .form--login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  text-align: center;
-  max-width: 30rem;
+    display: inline-block;
+    margin: 0 auto;
+    text-align: left;
 }
 
-/* Adjust the width of email input */
-.form--login > fieldset > input[type="email"] {
-  width: 100%;
+.form--login > fieldset > input[type="email"]
+.form--login > fieldset > input[type="password"],
+.form--login > fieldset > input[type="text"] 
+.form--login > fieldset > input[type="name"] {
+    width: 25em;
 }
 
-/* Style for labels */
 .label--login {
-  width: 8rem;
-  display: inline-block;
+    width: 8rem;
+    display: inline-block;
 }
 
-/* Styling for form inputs */
 .form-control {
-  display: block;
-  width: 100%;
-  height: calc(1.5em + .75rem + 2px);
-  padding: .375rem .75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: .25rem;
-  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    display: block;
+    width: 94%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    -webkit-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-/* Center the login container */
 .container--login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: aliceblue;
+    text-align: center;
 }
 
-/* Style for the login form */
 .form--login {
-  padding: 3rem;
-  padding-right: 4.4rem;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 0.5rem;
-  position: relative;
+    background-position-x: right;
+    z-index: 1;
+    min-height: 25rem;
+    min-width: 45rem;
+    background-color: aliceblue;
+    background-blend-mode: overlay;
+    background-repeat: no-repeat;
 }
 
-/* Style for the close button */
 .button--close {
-  position: relative;
-  bottom: -2rem;
-}
-
-/* Style for the "Not a member yet?" link */
-.link--register {
-  text-align: center;
-  margin-top: 1rem;
-  position: absolute;
-  bottom: -1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
+    position: relative;
+    bottom: -2rem;
 }
