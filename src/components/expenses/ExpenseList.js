@@ -1,180 +1,245 @@
-import React, { useState, useEffect } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-export const ExpenseList = () => {
-  const [expenses, setExpenses] = useState([]);
-  const [expenseCategories, setExpenseCategories] = useState([]);
-  const [selectedExpenses, setSelectedExpenses] = useState([]);
-  const [editMode, setEditMode] = useState(false);
-  const [editedExpenses, setEditedExpenses] = useState([]);
-  const localSpendWiseUser = localStorage.getItem("spend_wise_user")
-  const spendWiseUserObject = JSON.parse(localSpendWiseUser)
+export const ExpenseList = ({
+  expenses,
+  loggedInUserId,
+  expenseCategories,
+  onDeleteExpense,
+  setExpenses,
+}) => {
+  const [editingExpenseId, setEditingExpenseId] = useState(null);
+  const [deletingExpenseId, setDeletingExpenseId] = useState(null);
+  const [editedAmount, setEditedAmount] = useState("");
+  const [editedName, setEditedName] = useState("");
+  const [editedCategory, setEditedCategory] = useState("")
+  const [selectedExpenses, setSelectedExpenses] = useState([]); // State for selected expenses
 
-  useEffect(() => {
-    // Fetch expenses for a specific user and budget
-    fetch(`http://localhost:8088/expenses?userId=${spendWiseUserObject.userId}&budgetId=${spendWiseUserObject.budgetId}`)
-      .then((response) => response.json())
-      .then((data) => setExpenses(data));
+  const filteredExpenses = expenses.filter(
+    (expense) => expense.userId === loggedInUserId
+  );
 
-    // Fetch expense categories
-    fetch("http://localhost:8088/expenseCategories")
-      .then((response) => response.json())
-      .then((data) => setExpenseCategories(data));
-  }, [spendWiseUserObject.userId, spendWiseUserObject.budgetId]);
-
-  const getExpenseCategoryName = (categoryId) => {
-    const category = expenseCategories.find((category) => category.id === categoryId);
-    return category ? category.name : "";
+  const handleAmountChange = (e) => {
+    setEditedAmount(e.target.value);
   };
 
-  const handleCheckboxChange = (expenseId) => {
-    if (selectedExpenses.includes(expenseId)) {
-      setSelectedExpenses(selectedExpenses.filter((id) => id !== expenseId));
-    } else {
-      setSelectedExpenses([...selectedExpenses, expenseId]);
-    }
+  const handleNameChange = (e) => {
+    setEditedName(e.target.value);
   };
 
   const handleEditExpense = (expenseId) => {
-    setEditMode(true);
-    const expenseToEdit = expenses.find((expense) => expense.id === expenseId);
-    setEditedExpenses([{ ...expenseToEdit }]);
+    const expense = filteredExpenses.find((expense) => expense.id === expenseId);
+    if (expense) {
+      setEditingExpenseId(expenseId);
+      setEditedAmount(expense.amount.toString());
+      setEditedName(expense.name);
+    }
   };
 
-  const handleCancelEdit = () => {
-    setEditMode(false);
-    setEditedExpenses([]);
+  const handleCategoryChange = (expenseId, category) => {
+    // Handle category change logic
+    console.log("Expense ID:", expenseId);
+    console.log("Selected category:", category);
   };
 
-  const handleSaveExpense = () => {
-    // Handle save logic here using the editedExpenses state
-    console.log("Saving edited expenses:", editedExpenses);
-    setEditMode(false);
-    setEditedExpenses([]);
+  const handleDeleteExpense = (expenseId) => {
+    setDeletingExpenseId(expenseId);
+    onDeleteExpense(expenseId);
   };
 
-  const handleDeleteExpense = () => {
-    // Perform delete logic here using the selectedExpenses state
-    console.log("Deleting expenses:", selectedExpenses);
-    setSelectedExpenses([]);
+  const handleSaveExpense = (expenseId) => {
+    // Find the edited expense by ID
+    const editedExpense = expenses.find((expense) => expense.id === expenseId);
+
+    // Update the amount and name of the edited expense
+    editedExpense.amount = parseFloat(editedAmount);
+    editedExpense.name = editedName;
+
+    // Perform the update API call or any other logic to update the expense
+    fetch(`http://localhost:8088/expenses/${expenseId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editedExpense),
+    })
+      .then((response) => {
+        if (response.ok) {
+          // If the update is successful, update the expenses state
+          setExpenses((prevExpenses) =>
+            prevExpenses.map((expense) =>
+              expense.id === expenseId ? editedExpense : expense
+            )
+          );
+          setEditingExpenseId(null); // Reset the editing expense ID
+          setEditedAmount("");
+          setEditedName("");
+        } else {
+          throw new Error("Failed to update expense");
+        }
+      })
+      .catch((error) => {
+        console.log("Error updating expense:", error);
+      });
   };
 
-  const handleExpenseChange = (event, index) => {
-    const { name, value } = event.target;
-    setEditedExpenses((prevExpenses) => {
-      const updatedExpenses = [...prevExpenses];
-      updatedExpenses[index] = {
-        ...updatedExpenses[index],
-        [name]: value,
-      };
-      return updatedExpenses;
+  const handleCancelEditExpense = () => {
+    // Reset the editing state without saving changes
+    setEditingExpenseId(null);
+    setEditedAmount("");
+    setEditedName("");
+  };
+
+  const handleExpenseSelection = (expenseId) => {
+    // Toggle the selection of the expense
+    setSelectedExpenses((prevSelectedExpenses) => {
+      if (prevSelectedExpenses.includes(expenseId)) {
+        return prevSelectedExpenses.filter((id) => id !== expenseId);
+      } else {
+        return [...prevSelectedExpenses, expenseId];
+      }
     });
   };
 
-  const renderCategoryDropdown = (categoryId, index) => {
-    return (
-      <select
-        name="expenseCategoryId"
-        value={categoryId}
-        onChange={(event) => handleExpenseChange(event, index)}
-      >
-        {expenseCategories.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.name}
-          </option>
-        ))}
-      </select>
-    );
+  const handleEditButtonClick = () => {
+    // Perform edit action
+    // ...
   };
 
+  const handleDeleteButtonClick = () => {
+    // Perform delete action
+    // ...
+  };
+
+  const renderCategoryCell = (expense) => {
+    if (expense.id === editingExpenseId) {
+      // Render editable dropdown when expense is being edited
+      return (
+        <td>
+          <select
+            className="form-control"
+            defaultValue={expense.expenses[0]?.expenseCategoryId} // Access expenseCategoryId from nested expense
+            onChange={(e) => handleCategoryChange(expense.id, e.target.value)}
+          >
+            {expenseCategories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </td>
+      );
+    } else {
+      // Render category name when expense is not being edited
+      const category = expenseCategories.find(
+        (cat) => cat.id === expense.expenses[0]?.expenseCategoryId // Access expenseCategoryId from nested expense
+      );
+      return <td>{category ? category.name : ""}</td>;
+    }
+  };
+
+  const renderExpenseName = (expense) => {
+    const foundExpense = expenses.find((exp) => exp.id === expense.expenseId);
+    return foundExpense ? foundExpense.name : "Unknown expense";
+  };
+
+
+
+
+  const renderExpenseAmount = (expense) => {
+    const foundExpense = expenses.find((exp) => exp.id === expense.expenseId);
+    return foundExpense ? foundExpense.amount : "";
+  };
+
+  const isEditButtonDisabled = selectedExpenses.length === 0; // Disable edit button if no expenses are selected
+  const isDeleteButtonDisabled = selectedExpenses.length === 0; // Disable delete button if no expenses are selected
+
   return (
-    <div>
-      <h2>Expense List</h2>
-      <table className="table table-hover">
+    <>
+      <h2>List of Expenses</h2>
+      <table className="table table-striped">
         <thead>
           <tr>
-            <th>Select</th>
-            <th>Expense</th>
-            <th>Amount</th>
-            <th>Category</th>
+            <th scope="col">Select</th>
+            <th scope="col">Name</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Category</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {expenses.map((expense, index) => (
-            <tr
-              key={expense.id}
-              className={selectedExpenses.includes(expense.id) ? "table-primary" : ""}
-            >
+          {filteredExpenses.map((expense) => (
+            <tr key={expense.id}>
               <td>
                 <input
                   type="checkbox"
                   checked={selectedExpenses.includes(expense.id)}
-                  onChange={() => handleCheckboxChange(expense.id)}
+                  onChange={() => handleExpenseSelection(expense.id)}
                 />
               </td>
               <td>
-                {editMode ? (
+                {editingExpenseId === expense.id ? (
                   <input
+                    className="form-control"
                     type="text"
-                    name="name"
-                    value={editedExpenses[index]?.name || ""}
-                    onChange={(event) => handleExpenseChange(event, index)}
+                    value={editedName}
+                    onChange={handleNameChange}
                   />
                 ) : (
                   expense.name
                 )}
               </td>
               <td>
-                {editMode ? (
+                {editingExpenseId === expense.id ? (
                   <input
+                    className="form-control"
                     type="number"
-                    name="amount"
-                    value={editedExpenses[index]?.amount || ""}
-                    onChange={(event) => handleExpenseChange(event, index)}
+                    value={editedAmount}
+                    onChange={handleAmountChange}
                   />
                 ) : (
                   expense.amount
                 )}
               </td>
+              <td>{renderExpenseName(expense)}</td>
+              {renderCategoryCell(expense)}
               <td>
-                {editMode ? (
-                  renderCategoryDropdown(editedExpenses[index]?.expenseCategoryId, index)
+                {editingExpenseId !== expense.id ? (
+                  <button
+                    className="btn btn-primary mr-2"
+                    onClick={() => handleEditExpense(expense.id)}
+                    disabled={isEditButtonDisabled} // Disable edit button if no expenses are selected
+                  >
+                    Edit
+                  </button>
                 ) : (
-                  getExpenseCategoryName(expense.expenseCategoryId)
+                  <>
+                    <button
+                      className="btn btn-success mr-2"
+                      onClick={() => handleSaveExpense(expense.id)}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={handleCancelEditExpense}
+                    >
+                      Cancel
+                    </button>
+                  </>
                 )}
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDeleteExpense(expense.id)}
+                  disabled={deletingExpenseId === expense.id || isDeleteButtonDisabled} // Disable delete button if deleting or no expenses are selected
+                >
+                  {deletingExpenseId === expense.id ? "Deleting..." : "Delete"}
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      {editMode ? (
-        <div className="buttons-container">
-          <button className="btn btn-primary" onClick={handleSaveExpense}>
-            Save
-          </button>
-          <button className="btn btn-secondary" onClick={handleCancelEdit}>
-            Cancel
-          </button>
-        </div>
-      ) : (
-        <div className="buttons-container">
-          <button
-            className="btn btn-primary"
-            onClick={() => handleEditExpense(selectedExpenses[0])}
-            disabled={selectedExpenses.length !== 1}
-          >
-            Edit
-          </button>
-          <button
-            className="btn btn-danger"
-            onClick={() => handleDeleteExpense(selectedExpenses)}
-            disabled={selectedExpenses.length === 0}
-          >
-            Delete
-          </button>
-        </div>
-      )}
-    </div>
+    </>
   );
 };
