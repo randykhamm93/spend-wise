@@ -84,7 +84,7 @@ export const Budget = () => {
   };
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-4">Hello {user.fullName}, here is an overview of your current budget</h1>
+      <h1 className="text-center mb-4">Hello {user.fullName}, here is an overview of your current budget..</h1>
       <div className="row">
         <div className="col-md-6">
           <ul className="list-group">
@@ -97,7 +97,7 @@ export const Budget = () => {
               <button onClick={handleEditExpenses} className="btn btn-primary">Edit</button>
             </li>
             <li className="list-group-item d-flex justify-content-between align-items-center">
-              Balance: ${balance}
+              Budget Balance: ${balance}
             </li>
           </ul>
         </div>
