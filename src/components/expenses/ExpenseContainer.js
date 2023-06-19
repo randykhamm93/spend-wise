@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ExpenseForm } from "./ExpenseForm";
 import { ExpenseList } from './ExpenseList';
+import "./Expenses.css"
 
 export const ExpenseContainer = () => {
   const [expenses, setExpenses] = useState([]);
@@ -18,7 +19,6 @@ export const ExpenseContainer = () => {
     setExpenses(userExpenses);
   };
   
-
   const fetchExpenseCategories = async () => {
     const response = await fetch('http://localhost:8088/expenseCategories'); 
     const data = await response.json();
@@ -81,31 +81,32 @@ export const ExpenseContainer = () => {
     }
   };
   
-  const formatCurrency = (amount) => {
-    return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-  };
 
   return (
-    <>
-      <ExpenseForm
-        onAddExpense={handleAddExpense}
-        expenseCategories={expenseCategories}
-        selectedExpense={selectedExpense}
-        setSelectedExpense={setSelectedExpense}
-        isEditMode={isEditMode}
-        onEditExpense={handleEditExpense}
-        setIsEditMode={setIsEditMode}
-      />
-      <ExpenseList
-        expenses={expenses}
-        setExpenses={setExpenses}
-        expenseCategories={expenseCategories}
-        onEdit={setSelectedExpense}
-        onDelete={handleDeleteExpense}
-        onAddExpense={handleAddExpense}
-        isEditMode={isEditMode}
-        setIsEditMode={setIsEditMode}
-      />
-    </>
-  );
+    <div className="expense__container">
+      <div className="expense-form-container">
+        <ExpenseForm
+          onAddExpense={handleAddExpense}
+          expenseCategories={expenseCategories}
+          selectedExpense={selectedExpense}
+          setSelectedExpense={setSelectedExpense}
+          isEditMode={isEditMode}
+          onEditExpense={handleEditExpense}
+          setIsEditMode={setIsEditMode}
+        />
+      </div>
+      <div className="expense-list-container">
+        <ExpenseList
+          expenses={expenses}
+          setExpenses={setExpenses}
+          expenseCategories={expenseCategories}
+          onEdit={setSelectedExpense}
+          onDelete={handleDeleteExpense}
+          onAddExpense={handleAddExpense}
+          isEditMode={isEditMode}
+          setIsEditMode={setIsEditMode}
+        />
+      </div>
+    </div>
+  );  
 };

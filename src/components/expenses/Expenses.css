@@ -1,0 +1,11 @@
+.expense__container {
+  width: 100%;
+}
+
+.expense-form-container {
+  margin: 40px; 
+}
+
+.expense-list-container {
+  margin: 40px;
+}

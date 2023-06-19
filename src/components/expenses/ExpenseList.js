@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExpense, isEditMode, setIsEditMode, formattedCurrency }) => {
+export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExpense, isEditMode, setIsEditMode }) => {
   const [selectedExpense, setSelectedExpense] = useState(null);
 
   const handleCheckboxChange = (event, expense) => {
@@ -52,6 +52,11 @@ export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExp
       });
   };
 
+  const usdFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  });
+
   return (
     <table className="table">
       <thead>
@@ -77,9 +82,18 @@ export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExp
             </td>
             <td>
               {isEditMode && selectedExpense.id === expense.id ? (
-                <input type="number" value={selectedExpense.amount} onChange={(e) => setSelectedExpense({ ...selectedExpense, amount: parseFloat(e.target.value) })} />
+                <input
+                  type="number"
+                  value={selectedExpense.amount}
+                  onChange={(e) =>
+                    setSelectedExpense({
+                      ...selectedExpense,
+                      amount: parseFloat(e.target.value)
+                    })
+                  }
+                />
               ) : (
-                expense.amount
+                usdFormatter.format(expense.amount)
               )}
             </td>
             <td>

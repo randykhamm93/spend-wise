@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const IncomeForm = ({ onAddIncome, incomeFrequencies, incomeCategories, selectedIncome,
- onEditIncome }) => {
+export const IncomeForm = ({ onAddIncome, incomeFrequencies, incomeCategories, selectedIncome, onEditIncome }) => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [frequencyId, setFrequencyId] = useState("");
@@ -23,7 +22,7 @@ export const IncomeForm = ({ onAddIncome, incomeFrequencies, incomeCategories, s
 
   const handleSubmit = (event) => {
     event.preventDefault();
-  
+
     // Create a new income object
     const newIncome = {
       name,
@@ -31,7 +30,7 @@ export const IncomeForm = ({ onAddIncome, incomeFrequencies, incomeCategories, s
       incomeFrequencyId: frequencyId,
       incomeCategoryId: categoryId
     };
-  
+
     // If there's a selectedIncome, we're editing an existing income
     if (selectedIncome) {
       onEditIncome({ ...selectedIncome, ...newIncome });
@@ -39,14 +38,14 @@ export const IncomeForm = ({ onAddIncome, incomeFrequencies, incomeCategories, s
       // Otherwise, we're adding a new income
       onAddIncome(newIncome);
     }
-  
+
     // Reset the form fields
     setName("");
     setAmount("");
     setFrequencyId("");
     setCategoryId("");
   };
-  
+
 
   return (
     <form onSubmit={handleSubmit} className="form-group">
@@ -94,7 +93,7 @@ export const IncomeForm = ({ onAddIncome, incomeFrequencies, incomeCategories, s
         ))}
       </select>
       <button type="submit" className="btn btn-primary">
-         {"Add Income"}
+        {"Add Income"}
       </button>
     </form>
   );

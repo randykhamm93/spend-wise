@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export const ExpenseForm = ({ onAddExpense, expenseCategories, selectedExpense,
- onEditExpense, formattedCurrency }) => {
+ onEditExpense }) => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [categoryId, setCategoryId] = useState("");

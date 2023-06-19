@@ -52,6 +52,11 @@ export const IncomeList = ({ incomes, setIncomes, incomeFrequencies, incomeCateg
       });
   };
 
+  const usdFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  });
+  
   return (
     <table className="table">
       <thead>
@@ -78,9 +83,18 @@ export const IncomeList = ({ incomes, setIncomes, incomeFrequencies, incomeCateg
             </td>
             <td>
               {isEditMode && selectedIncome.id === income.id ? (
-                <input type="number" value={selectedIncome.amount} onChange={(e) => setSelectedIncome({ ...selectedIncome, amount: parseFloat(e.target.value) })} />
+                <input
+                  type="number"
+                  value={selectedIncome.amount}
+                  onChange={(e) =>
+                    setSelectedIncome({
+                      ...selectedIncome,
+                      amount: parseFloat(e.target.value)
+                    })
+                  }
+                />
               ) : (
-                income.amount
+                usdFormatter.format(income.amount)
               )}
             </td>
             <td>

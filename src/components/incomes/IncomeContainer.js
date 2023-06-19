@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { IncomeForm } from "./IncomeForm";
 import { IncomeList } from "./IncomeList";
-
+import "./Income.css"
 
 export const IncomeContainer = () => {
   const [incomes, setIncomes] = useState([]);
@@ -44,6 +44,7 @@ export const IncomeContainer = () => {
     const parsedIncome = {
       ...income,
       amount: parseFloat(income.amount),
+      incomeFrequencyId: parseInt(income.incomeFrequencyId),
       incomeCategoryId: parseInt(income.incomeCategoryId),
       userId: spendWiseUserObject.id
     };
@@ -90,13 +91,16 @@ export const IncomeContainer = () => {
       console.error('Failed to delete income from the database');
     }
   };
-  
-  const formatCurrency = (amount) => {
-    return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-  };
+
+  const usdFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  });
 
   return (
     <>
+    <div className="income__container">
+      <div className="income-form-container">
       <IncomeForm
         onAddIncome={handleAddIncome}
         incomeCategories={incomeCategories}
@@ -106,8 +110,9 @@ export const IncomeContainer = () => {
         isEditMode={isEditMode}
         onEditIncome={handleEditIncome}
         setIsEditMode={setIsEditMode}
-        formattedCurrent={formatCurrency}
       />
+      </div>
+      <div className="income-list-container">
       <IncomeList
         incomes={incomes}
         setIncomes={setIncomes}
@@ -118,8 +123,9 @@ export const IncomeContainer = () => {
         onAddIncome={handleAddIncome}
         isEditMode={isEditMode}
         setIsEditMode={setIsEditMode}
-        formattedCurrent={formatCurrency}
       />
+      </div>
+    </div>
     </>
   );
 };
