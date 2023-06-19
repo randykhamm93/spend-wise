@@ -76,11 +76,11 @@ export const Budget = () => {
   };
 
   const handleEditIncome = () => {
-    navigate('/edit-income');
+    navigate('/incomes');
   };
 
   const handleEditExpenses = () => {
-    navigate('/edit-expenses');
+    navigate('/expenses');
   };
   return (
     <div className="container mt-5">
@@ -90,11 +90,11 @@ export const Budget = () => {
           <ul className="list-group">
             <li className="list-group-item d-flex justify-content-between align-items-center">
               Total Income: ${totalIncome}
-              <button onClick={handleEditIncome} className="btn btn-primary">Edit</button>
+              <button onClick={handleEditIncome} className="btn btn-primary">Edit Income</button>
             </li>
             <li className="list-group-item d-flex justify-content-between align-items-center">
               Total Expenses: ${totalExpenses}
-              <button onClick={handleEditExpenses} className="btn btn-primary">Edit</button>
+              <button onClick={handleEditExpenses} className="btn btn-primary">Edit Expenses</button>
             </li>
             <li className="list-group-item d-flex justify-content-between align-items-center">
               Budget Balance: ${balance}

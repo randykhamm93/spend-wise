@@ -8,7 +8,7 @@ export const ExpenseContainer = () => {
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
 
- 
+
   const localSpendWiseUser = localStorage.getItem("spend_wise_user");
   const spendWiseUserObject = JSON.parse(localSpendWiseUser);
 
@@ -34,7 +34,7 @@ export const ExpenseContainer = () => {
       ...expense,
       amount: parseFloat(expense.amount),
       expenseCategoryId: parseInt(expense.expenseCategoryId),
-      userId: 1,
+      userId: spendWiseUserObject.id
     };
 
     const response = await fetch('http://localhost:8088/expenses', {
@@ -51,22 +51,35 @@ export const ExpenseContainer = () => {
       console.error('Failed to add expense to the database');
     }
   };
+ 
+  const handleEditExpense = async (updatedExpense) => {
+    const response = await fetch(`http://localhost:8088/expenses/${updatedExpense.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedExpense),
+    });
   
+    if (response.ok) {
+      fetchExpenses();
+    } else {
+      console.error('Failed to update expense in the database');
+    }
+  };
   
-
-  const handleEditExpense = (updatedExpense) => {
-    // Update the edited expense in the expenses state
-    setExpenses(
-      expenses.map((expense) =>
-        expense.id === updatedExpense.id ? updatedExpense : expense
-      )
-    );
+  const handleDeleteExpense = async (expenseId) => {
+    const response = await fetch(`http://localhost:8088/expenses/${expenseId}`, {
+      method: 'DELETE',
+    });
+  
+    if (response.ok) {
+      fetchExpenses();
+    } else {
+      console.error('Failed to delete expense from the database');
+    }
   };
-
-  const handleDeleteExpense = (expenseId) => {
-    // Remove the deleted expense from the expenses state
-    setExpenses(expenses.filter((expense) => expense.id !== expenseId));
-  };
+  
 
   return (
     <>
@@ -82,10 +95,12 @@ export const ExpenseContainer = () => {
       <ExpenseList
         expenses={expenses}
         setExpenses={setExpenses}
-        expenseCategories={expenseCategories} 
+        expenseCategories={expenseCategories}
         onEdit={setSelectedExpense}
         onDelete={handleDeleteExpense}
         onAddExpense={handleAddExpense}
+        isEditMode={isEditMode}
+        setIsEditMode={setIsEditMode}
       />
     </>
   );

@@ -1,25 +1,30 @@
+import { useState } from 'react';
 
-import React, { useState } from 'react';
-
-export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExpense }) => {
+export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExpense, isEditMode, setIsEditMode }) => {
   const [selectedExpense, setSelectedExpense] = useState(null);
-  const [isEditMode, setIsEditMode] = useState(false);
 
-  
+  const handleCheckboxChange = (event, expense) => {
+    if (event.target.checked) {
+      setSelectedExpense(expense);
+    } else {
+      setSelectedExpense(null);
+      setIsEditMode(false);
+    }
+  };
 
-  const handleEdit = (expense) => {
-    setSelectedExpense(expense);
+  const handleEdit = () => {
     setIsEditMode(true);
   };
 
-  const handleDelete = (expense) => {
+  const handleDelete = () => {
     // Delete expense from the database
-    fetch(`http://localhost:8088/expenses/${expense.id}`, {
+    fetch(`http://localhost:8088/expenses/${selectedExpense.id}`, {
       method: 'DELETE'
     })
       .then(response => {
         // Remove the deleted expense from the expenses list
-        setExpenses(expenses.filter(item => item.id !== expense.id));
+        setExpenses(expenses.filter(item => item.id !== selectedExpense.id));
+        setSelectedExpense(null);
       })
       .catch(error => {
         console.log(error);
@@ -47,14 +52,6 @@ export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExp
       });
   };
 
-  const handleAddExpense = (newExpense) => {
-    // Call the addExpense function passed as a prop
-    onAddExpense(newExpense);
-
-    // Update the expenses list with the new expense
-    setExpenses([...expenses, newExpense]);
-  };
-
   return (
     <table className="table">
       <thead>
@@ -63,41 +60,51 @@ export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExp
           <th>Name</th>
           <th>Amount</th>
           <th>Category</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         {expenses.map(expense => (
           <tr key={expense.id}>
             <td>
-              <input type="checkbox" />
+              <input type="checkbox" onChange={(event) => handleCheckboxChange(event, expense)} />
             </td>
-            <td>{expense.name}</td>
-            <td>{expense.amount}</td>
             <td>
-              {expenseCategories.map(category => {
-                if (category.id === expense.expenseCategoryId) { 
-                  return category.name;
-                }
-                return null;
-              })}
+              {isEditMode && selectedExpense.id === expense.id ? (
+                <input type="text" value={selectedExpense.name} onChange={(e) => setSelectedExpense({ ...selectedExpense, name: e.target.value })} />
+              ) : (
+                expense.name
+              )}
             </td>
+            <td>
+              {isEditMode && selectedExpense.id === expense.id ? (
+                <input type="number" value={selectedExpense.amount} onChange={(e) => setSelectedExpense({ ...selectedExpense, amount: parseFloat(e.target.value) })} />
+              ) : (
+                expense.amount
+              )}
+            </td>
+            <td>
+              {isEditMode && selectedExpense.id === expense.id ? (
+                <select value={selectedExpense.expenseCategoryId} onChange={(e) => setSelectedExpense({ ...selectedExpense, expenseCategoryId: parseInt(e.target.value) })}>
+                  {expenseCategories.map(category => (
+                    <option key={category.id} value={category.id}>{category.name}</option>
+                  ))}
+                </select>
+              ) : (
+                expenseCategories.find(category => category.id === Number(expense.expenseCategoryId))?.name || ''
+              )}
 
-            <td>
-              <button className="btn btn-primary" onClick={() => handleEdit(expense)}>Edit</button>
-              <button className="btn btn-danger" onClick={() => handleDelete(expense)}>Delete</button>
             </td>
           </tr>
         ))}
       </tbody>
       <tfoot>
-        {isEditMode && selectedExpense && (
-          <tr>
-            <td colSpan="5">
-              <button className="btn btn-primary" onClick={handleSave}>Save</button>
-            </td>
-          </tr>
-        )}
+        <tr>
+          <td colSpan="5">
+            <button className="btn btn-primary" onClick={handleEdit} disabled={!selectedExpense}>Edit</button>
+            <button className="btn btn-danger" onClick={handleDelete} disabled={!selectedExpense}>Delete</button>
+            {isEditMode && <button className="btn btn-success" onClick={handleSave}>Save</button>}
+          </td>
+        </tr>
       </tfoot>
     </table>
   );

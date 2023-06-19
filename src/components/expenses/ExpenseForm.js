@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 
-export const ExpenseForm = ({ onAddExpense, expenseCategories, selectedExpense, isEditMode, onEditExpense, setIsEditMode }) => {
+export const ExpenseForm = ({ onAddExpense, expenseCategories, selectedExpense,
+ onEditExpense }) => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [categoryId, setCategoryId] = useState("");
 
   useEffect(() => {
-    if (isEditMode && selectedExpense) {
+    if (selectedExpense) {
       setName(selectedExpense.name);
       setAmount(selectedExpense.amount);
       setCategoryId(selectedExpense.expenseCategoryId);
@@ -15,36 +16,36 @@ export const ExpenseForm = ({ onAddExpense, expenseCategories, selectedExpense, 
       setAmount("");
       setCategoryId("");
     }
-  }, [isEditMode, selectedExpense]);
+  }, [selectedExpense]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+  
     // Create a new expense object
     const newExpense = {
       name,
       amount,
       expenseCategoryId: categoryId
     };
-
-    if (isEditMode && selectedExpense) {
-      // If in edit mode, call the onEditExpense function with the updated expense
+  
+    // If there's a selectedExpense, we're editing an existing expense
+    if (selectedExpense) {
       onEditExpense({ ...selectedExpense, ...newExpense });
-      setIsEditMode(false);
     } else {
-      // Call the onAddExpense function with the new expense
+      // Otherwise, we're adding a new expense
       onAddExpense(newExpense);
     }
-
+  
     // Reset the form fields
     setName("");
     setAmount("");
     setCategoryId("");
   };
+  
 
   return (
     <form onSubmit={handleSubmit} className="form-group">
-      <h1>{isEditMode ? "Edit Expense" : "Add an Expense"}</h1>
+      <h1>{"Add an Expense"}</h1>
       <input
         type="text"
         value={name}
@@ -75,7 +76,7 @@ export const ExpenseForm = ({ onAddExpense, expenseCategories, selectedExpense, 
         ))}
       </select>
       <button type="submit" className="btn btn-primary">
-        {isEditMode ? "Save Changes" : "Add Expense"}
+         {"Add Expense"}
       </button>
     </form>
   );
