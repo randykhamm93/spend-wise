@@ -50,6 +50,10 @@ export const Budget = () => {
     setBalance(totalIncome - totalExpenses);
   }, [totalIncome, totalExpenses]);
 
+  const formatCurrency = (amount) => {
+    return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  };
+
   const data = {
     labels: ['Income', 'Expenses'],
     datasets: [
@@ -67,10 +71,18 @@ export const Budget = () => {
       },
       title: {
         display: true,
-        text: 'Income vs Expenses'
+        text: `Income (${((totalIncome / (totalIncome + totalExpenses)) * 100).toFixed(2)}%) vs Expenses (${((totalExpenses / (totalIncome + totalExpenses)) * 100).toFixed(2)}%)`
       },
       tooltip: {
         enabled: true,
+        callbacks: {
+          label: (context) => {
+            const value = context.parsed;
+            const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+            const percentage = ((value / total) * 100).toFixed(2);
+            return `${context.label}: ${formatCurrency(value)} (${percentage}%)`;
+          }
+        }
       }
     }
   };
@@ -82,6 +94,7 @@ export const Budget = () => {
   const handleEditExpenses = () => {
     navigate('/expenses');
   };
+  
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Hello {user.fullName}, here is an overview of your current budget..</h1>
@@ -89,15 +102,15 @@ export const Budget = () => {
         <div className="col-md-6">
           <ul className="list-group">
             <li className="list-group-item d-flex justify-content-between align-items-center">
-              Total Income: ${totalIncome}
+              Total Income: {formatCurrency(totalIncome)}
               <button onClick={handleEditIncome} className="btn btn-primary">Edit Income</button>
             </li>
             <li className="list-group-item d-flex justify-content-between align-items-center">
-              Total Expenses: ${totalExpenses}
+              Total Expenses: {formatCurrency(totalExpenses)}
               <button onClick={handleEditExpenses} className="btn btn-primary">Edit Expenses</button>
             </li>
             <li className="list-group-item d-flex justify-content-between align-items-center">
-              Budget Balance: ${balance}
+              Budget Balance: {formatCurrency(balance)}
             </li>
           </ul>
         </div>

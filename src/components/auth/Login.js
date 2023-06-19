@@ -23,7 +23,7 @@ export const Login = () => {
             })
           );
 
-          navigate("/dashboard") 
+          navigate("/budget") 
         } else {
           window.alert("Invalid login")
         }

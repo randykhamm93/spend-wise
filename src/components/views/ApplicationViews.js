@@ -1,6 +1,5 @@
 import { Outlet, Route, Routes } from "react-router-dom";
-import {  } from "../incomes/IncomeList";
-import {  } from "../incomes/IncomeForm";
+import { IncomeContainer } from "../incomes/IncomeContainer";
 import { ExpenseContainer } from "../expenses/ExpenseContainer";
 import { Budget } from "../budgets/Budget";
 
@@ -19,11 +18,7 @@ export const ApplicationViews = () => {
       />
       <Route path="budget" element={ < Budget/> } />
 
-      <Route path="incomes" element={
-				<>
-					
-					</>
-			} />
+      <Route path="incomes" element={ < IncomeContainer /> } />
 
       <Route path="expenses" element={ < ExpenseContainer /> } />
     </Routes>

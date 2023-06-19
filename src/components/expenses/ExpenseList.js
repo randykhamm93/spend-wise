@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExpense, isEditMode, setIsEditMode }) => {
+export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExpense, isEditMode, setIsEditMode, formattedCurrency }) => {
   const [selectedExpense, setSelectedExpense] = useState(null);
 
   const handleCheckboxChange = (event, expense) => {

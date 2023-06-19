@@ -8,18 +8,19 @@ export const ExpenseContainer = () => {
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
 
-
   const localSpendWiseUser = localStorage.getItem("spend_wise_user");
   const spendWiseUserObject = JSON.parse(localSpendWiseUser);
 
   const fetchExpenses = async () => {
     const response = await fetch('http://localhost:8088/expenses');
     const data = await response.json();
-    setExpenses(data);
+    const userExpenses = data.filter(expense => expense.userId === spendWiseUserObject.id);
+    setExpenses(userExpenses);
   };
+  
 
   const fetchExpenseCategories = async () => {
-    const response = await fetch('http://localhost:8088/expenseCategories'); // replace with your actual API endpoint
+    const response = await fetch('http://localhost:8088/expenseCategories'); 
     const data = await response.json();
     setExpenseCategories(data);
   };
@@ -80,6 +81,9 @@ export const ExpenseContainer = () => {
     }
   };
   
+  const formatCurrency = (amount) => {
+    return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  };
 
   return (
     <>
