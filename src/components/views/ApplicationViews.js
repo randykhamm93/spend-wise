@@ -5,22 +5,15 @@ import { Budget } from "../budgets/Budget";
 
 export const ApplicationViews = () => {
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <>
-            <h1>SpendWise</h1>
-            <div>Budgeting Made Simple</div>
-            <Outlet />
-          </>
-        }
-      />
-      <Route path="budget" element={ < Budget/> } />
-
-      <Route path="incomes" element={ < IncomeContainer /> } />
-
-      <Route path="expenses" element={ < ExpenseContainer /> } />
-    </Routes>
+    <>
+      <h1>SpendWise</h1>
+      <div>Budgeting Made Simple</div>
+      <Routes>
+        <Route path="/" element={<Outlet />} />
+        <Route path="/budget" element={<Budget />} />
+        <Route path="/incomes" element={<IncomeContainer />} />
+        <Route path="/expenses" element={<ExpenseContainer />} />
+      </Routes>
+    </>
   );
 };
