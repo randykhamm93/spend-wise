@@ -58,6 +58,8 @@ export const IncomeList = ({ incomes, setIncomes, incomeFrequencies, incomeCateg
   });
   
   return (
+    <div>
+      <h2>Current Incomes</h2>
     <table className="table">
       <thead>
         <tr>
@@ -134,5 +136,6 @@ export const IncomeList = ({ incomes, setIncomes, incomeFrequencies, incomeCateg
         </tr>
       </tfoot>
     </table>
+    </div>
   );
 };

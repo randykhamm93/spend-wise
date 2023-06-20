@@ -58,6 +58,8 @@ export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExp
   });
 
   return (
+    <div>
+      <h2>Current Expenses</h2>
     <table className="table">
       <thead>
         <tr>
@@ -121,5 +123,6 @@ export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExp
         </tr>
       </tfoot>
     </table>
+    </div>
   );
 };

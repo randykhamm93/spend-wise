@@ -14,12 +14,12 @@ export const Budget = () => {
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [balance, setBalance] = useState(0);
-  
+
   const localSpendWiseUser = localStorage.getItem("spend_wise_user");
   const spendWiseUserObject = JSON.parse(localSpendWiseUser);
 
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     // Fetch user data
     fetch(`http://localhost:8088/users/${spendWiseUserObject.id}`)
@@ -27,13 +27,19 @@ export const Budget = () => {
       .then(data => setUser(data));
 
     // Fetch income data
+    // Fetch income data
     fetch(`http://localhost:8088/incomes?userId=${spendWiseUserObject.id}`)
       .then(response => response.json())
       .then(data => {
-        setIncomes(data);
-        const total = data.reduce((sum, income) => sum + Number(income.amount), 0);
+        const monthlyIncomes = data.map(income => ({
+          ...income,
+          amount: calculateMonthlyIncome(Number(income.amount), income.incomeFrequencyId)
+        }));
+        setIncomes(monthlyIncomes);
+        const total = monthlyIncomes.reduce((sum, income) => sum + income.amount, 0);
         setTotalIncome(total);
       });
+
 
     // Fetch expense data
     fetch(`http://localhost:8088/expenses?userId=${spendWiseUserObject.id}`)
@@ -62,6 +68,21 @@ export const Budget = () => {
         backgroundColor: ['rgb(75, 192, 192)', 'rgb(255, 99, 132)'],
       }
     ]
+  };
+
+  const calculateMonthlyIncome = (amount, frequencyId) => {
+    switch (frequencyId) {
+      case 1: // Weekly
+        return amount * 4;
+      case 2: // Bi-Weekly
+        return amount * 2;
+      case 3: // Monthly
+        return amount;
+      case 4: // Annually
+        return amount / 12;
+      default:
+        return amount;
+    }
   };
 
   const options = {
@@ -94,10 +115,10 @@ export const Budget = () => {
   const handleEditExpenses = () => {
     navigate('/expenses');
   };
-  
+
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-5">Hello {user.fullName}, here is an overview of your current budget..</h1>
+      <h2 className="text-center mb-5">Hello {user.fullName}, here is an overview of your current monthly budget..</h2>
       <div className="row">
         <div className="col-md-6">
           <ul className="list-group">

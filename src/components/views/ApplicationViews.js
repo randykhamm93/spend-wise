@@ -6,8 +6,10 @@ import { Budget } from "../budgets/Budget";
 export const ApplicationViews = () => {
   return (
     <>
-      <h1>SpendWise</h1>
+      <div className="logo-heading">
+      <h1 className="">SpendWise</h1>
       <div>Budgeting Made Simple</div>
+      </div>
       <Routes>
         <Route path="/" element={<Outlet />} />
         <Route path="/budget" element={<Budget />} />
