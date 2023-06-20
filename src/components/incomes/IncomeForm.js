@@ -49,7 +49,7 @@ export const IncomeForm = ({ onAddIncome, incomeFrequencies, incomeCategories, s
 
   return (
     <form onSubmit={handleSubmit} className="form-group">
-      <h2>{"Add an Income"}</h2>
+      <h2>Add an Income</h2>
       <input
         type="text"
         value={name}

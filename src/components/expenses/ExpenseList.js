@@ -63,7 +63,7 @@ export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExp
     <table className="table">
       <thead>
         <tr>
-          <th></th>
+          <th>Select</th>
           <th>Name</th>
           <th>Amount</th>
           <th>Category</th>

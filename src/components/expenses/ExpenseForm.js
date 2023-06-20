@@ -45,7 +45,7 @@ export const ExpenseForm = ({ onAddExpense, expenseCategories, selectedExpense,
 
   return (
     <form onSubmit={handleSubmit} className="form-group">
-      <h2>{"Add an Expense"}</h2>
+      <h2>Add an Expense</h2>
       <input
         type="text"
         value={name}

@@ -27,7 +27,6 @@ export const Budget = () => {
       .then(data => setUser(data));
 
     // Fetch income data
-    // Fetch income data
     fetch(`http://localhost:8088/incomes?userId=${spendWiseUserObject.id}`)
       .then(response => response.json())
       .then(data => {
@@ -39,7 +38,6 @@ export const Budget = () => {
         const total = monthlyIncomes.reduce((sum, income) => sum + income.amount, 0);
         setTotalIncome(total);
       });
-
 
     // Fetch expense data
     fetch(`http://localhost:8088/expenses?userId=${spendWiseUserObject.id}`)
@@ -118,7 +116,7 @@ export const Budget = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-5">Hello {user.fullName}, here is an overview of your current monthly budget..</h2>
+      <h2 className="text-left mb-5">Hello {user.fullName}, here is an overview of your current monthly budget..</h2>
       <div className="row">
         <div className="col-md-6">
           <ul className="list-group">
@@ -136,7 +134,11 @@ export const Budget = () => {
           </ul>
         </div>
         <div className="col-md-6">
-          <Doughnut data={data} options={options} />
+          {totalIncome !== 0 || totalExpenses !== 0 ? (
+            <Doughnut data={data} options={options} />
+          ) : (
+            <p>No data available</p>
+          )}
         </div>
       </div>
     </div>

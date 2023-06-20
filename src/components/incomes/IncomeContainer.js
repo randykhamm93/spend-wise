@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { IncomeForm } from "./IncomeForm";
 import { IncomeList } from "./IncomeList";
-import "./Income.css"
+import "./Incomes.css"
 
 export const IncomeContainer = () => {
   const [incomes, setIncomes] = useState([]);
@@ -91,11 +91,6 @@ export const IncomeContainer = () => {
       console.error('Failed to delete income from the database');
     }
   };
-
-  const usdFormatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-  });
 
   return (
     <>

@@ -63,7 +63,7 @@ export const IncomeList = ({ incomes, setIncomes, incomeFrequencies, incomeCateg
     <table className="table">
       <thead>
         <tr>
-          <th></th>
+          <th>Select</th>
           <th>Name</th>
           <th>Amount</th>
           <th>Frequency</th>
