@@ -34,7 +34,7 @@ export const Login = () => {
     <main className="container--login">
       <section>
         <form className="form--login" onSubmit={handleLogin}>
-          <h1 className="mb-4">SpendWise</h1>
+          <h1 className="mb-4">Welcome to SpendWise</h1>
           <h2>Please sign in</h2>
           <fieldset className="mb-3">
             <label htmlFor="inputEmail" className="form-label">

@@ -6,7 +6,7 @@ export const NavBar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white navbar-expand-sm">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark navbar-expand-sm">
       <div className="container">
         <Link className="navbar-brand" to="/budget">
           SpendWise
