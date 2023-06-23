@@ -29,5 +29,9 @@ p {
 
 .logo-heading {
   margin: 1rem;
-  
+  line-height: 0rem;
+}
+
+.logo-slogan {
+  margin-left: 3.5rem;
 }

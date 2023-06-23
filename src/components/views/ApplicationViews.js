@@ -8,7 +8,7 @@ export const ApplicationViews = () => {
     <>
       <div className="logo-heading">
       <h1 className="">SpendWise</h1>
-      <div>Budgeting Made Simple</div>
+      <div className="logo-slogan">Budgeting Made Simple</div>
       </div>
       <Routes>
         <Route path="/" element={<Outlet />} />

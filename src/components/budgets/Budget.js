@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Doughnut } from 'react-chartjs-2';
 import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Chart, ArcElement, Tooltip, Title, Legend, DoughnutController } from 'chart.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Budget.css'
 
 Chart.register(ArcElement, Tooltip, Title, Legend, DoughnutController);
 
@@ -117,23 +118,25 @@ export const Budget = () => {
   return (
     <div className="container mt-5">
       <h2 className="text-left mb-5">Hello {user.fullName}, here is an overview of your current monthly budget..</h2>
-      <div className="row">
+      <div className="row justify-content-center">
         <div className="col-md-6">
           <ul className="list-group">
             <li className="list-group-item d-flex justify-content-between align-items-center">
               Total Income: {formatCurrency(totalIncome)}
-              <button onClick={handleEditIncome} className="btn btn-primary">Edit Income</button>
+              <button onClick={handleEditIncome} className="btn btn-primary custom-btn">Edit Income</button>
             </li>
             <li className="list-group-item d-flex justify-content-between align-items-center">
               Total Expenses: {formatCurrency(totalExpenses)}
-              <button onClick={handleEditExpenses} className="btn btn-primary">Edit Expenses</button>
+              <button onClick={handleEditExpenses} className="btn btn-primary custom-btn">Edit Expenses</button>
             </li>
             <li className="list-group-item d-flex justify-content-between align-items-center">
               Budget Balance: {formatCurrency(balance)}
             </li>
           </ul>
         </div>
-        <div className="col-md-6">
+      </div>
+      <div className="row mt-5 justify-content-center">
+        <div className="col-md-6 d-flex justify-content-center align-items-center">
           {totalIncome !== 0 || totalExpenses !== 0 ? (
             <Doughnut data={data} options={options} />
           ) : (
@@ -143,4 +146,6 @@ export const Budget = () => {
       </div>
     </div>
   );
+  
+  
 };
