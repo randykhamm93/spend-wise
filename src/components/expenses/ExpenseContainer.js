@@ -6,6 +6,7 @@ import "./Expenses.css"
 export const ExpenseContainer = () => {
   const [expenses, setExpenses] = useState([]);
   const [expenseCategories, setExpenseCategories] = useState([]);
+  const [expenseFrequencies, setExpenseFrequencies] = useState([]);
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -25,9 +26,16 @@ export const ExpenseContainer = () => {
     setExpenseCategories(data);
   };
 
+  const fetchExpenseFrequencies = async () => {
+    const response = await fetch('http://localhost:8088/expenseFrequencies'); 
+    const data = await response.json();
+    setExpenseFrequencies(data);
+  };
+
   useEffect(() => {
     fetchExpenses();
     fetchExpenseCategories();
+    fetchExpenseFrequencies();
   }, []);
 
   const handleAddExpense = async (expense) => {
@@ -88,6 +96,7 @@ export const ExpenseContainer = () => {
         <ExpenseForm
           onAddExpense={handleAddExpense}
           expenseCategories={expenseCategories}
+          expenseFrequencies={expenseFrequencies}
           selectedExpense={selectedExpense}
           setSelectedExpense={setSelectedExpense}
           isEditMode={isEditMode}
@@ -100,6 +109,7 @@ export const ExpenseContainer = () => {
           expenses={expenses}
           setExpenses={setExpenses}
           expenseCategories={expenseCategories}
+          expenseFrequencies={expenseFrequencies}
           onEdit={setSelectedExpense}
           onDelete={handleDeleteExpense}
           onAddExpense={handleAddExpense}

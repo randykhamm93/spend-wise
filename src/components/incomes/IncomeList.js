@@ -109,7 +109,6 @@ export const IncomeList = ({ incomes, setIncomes, incomeFrequencies, incomeCateg
               ) : (
                 incomeFrequencies.find(frequency => frequency.id === Number(income.incomeFrequencyId))?.name || ''
               )}
-
             </td>
             <td>
               {isEditMode && selectedIncome.id === income.id ? (

@@ -8,6 +8,7 @@ import "./SpendWise.css"
 
 
 export const SpendWise = () => {
+	
 	return <Routes>
 		<Route path="/login" element={<Login />} />
 		<Route path="/register" element={<Register />} />

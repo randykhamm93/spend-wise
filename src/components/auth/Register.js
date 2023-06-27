@@ -55,11 +55,11 @@ export const Register = (props) => {
   };
 
   return (
-    <main style={{ textAlign: "center" }}>
+    <main className="container d-flex justify-content-center align-items-center">
       <form className="form--login" onSubmit={handleRegister}>
-      <h1 className="mb-4">SpendWise</h1>
+      <h1 className="mb-4">$pendWise</h1>
         <h1 className="h3 mb-3 font-weight-normal">
-          Please Register for SpendWise
+          Please Register for $pendWise
         </h1>
         <fieldset className="mb-3">
           <label htmlFor="fullName" className="form-label">
@@ -101,9 +101,11 @@ export const Register = (props) => {
             required
           />
         </fieldset>
+        <fieldset>
         <button type="submit" className="btn btn-primary">
           Register
         </button>
+        </fieldset>
       </form>
     </main>
   );

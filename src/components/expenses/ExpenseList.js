@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExpense, isEditMode, setIsEditMode }) => {
+export const ExpenseList = ({ expenses, setExpenses, expenseFrequencies, expenseCategories, onAddExpense, isEditMode, setIsEditMode }) => {
   const [selectedExpense, setSelectedExpense] = useState(null);
 
   const handleCheckboxChange = (event, expense) => {
@@ -66,6 +66,7 @@ export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExp
           <th>Select</th>
           <th>Name</th>
           <th>Amount</th>
+          <th>Frequency</th>
           <th>Category</th>
         </tr>
       </thead>
@@ -96,6 +97,17 @@ export const ExpenseList = ({ expenses, setExpenses, expenseCategories, onAddExp
                 />
               ) : (
                 usdFormatter.format(expense.amount)
+              )}
+            </td>
+            <td>
+              {isEditMode && selectedExpense.id === expense.id ? (
+                <select value={selectedExpense.expenseFrequencyId} onChange={(e) => setSelectedExpense({ ...selectedExpense, expenseFrequencyId: parseInt(e.target.value) })}>
+                  {expenseFrequencies.map(frequency => (
+                    <option key={frequency.id} value={frequency.id}>{frequency.name}</option>
+                  ))}
+                </select>
+              ) : (
+                expenseFrequencies.find(frequency => frequency.id === Number(expense.expenseFrequencyId))?.name || ''
               )}
             </td>
             <td>

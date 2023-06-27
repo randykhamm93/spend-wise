@@ -31,51 +31,52 @@ export const Login = () => {
   };
 
   return (
-    <main className="container--login">
-      <section>
-        <form className="form--login" onSubmit={handleLogin}>
-          <h1 className="mb-4">Welcome to SpendWise</h1>
-          <h2>Please sign in</h2>
-          <fieldset className="mb-3">
-            <label htmlFor="inputEmail" className="form-label">
-              Email address
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(evt) => setEmail(evt.target.value)}
-              className="form-control"
-              id="inputEmail"
-              placeholder="Email address"
-              required
-              autoFocus
-            />
-          </fieldset>
-          <fieldset className="mb-3">
-            <label htmlFor="inputPassword" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(evt) => setPassword(evt.target.value)}
-              className="form-control"
-              id="inputPassword"
-              placeholder="Password"
-              required
-              autoFocus
-            />
-          </fieldset>
-          <fieldset>
-            <button type="submit" className="btn btn-primary">
-              Sign in
-            </button>
-          </fieldset>
-        </form>
-      </section>
+    <main className="container d-flex justify-content-center align-items-center">
+    <section>
+      <form className="form--login" onSubmit={handleLogin}>
+        <h1 className="mb-4">Welcome to $pendWise</h1>
+        <h2>Please sign in</h2>
+        <fieldset className="mb-3">
+          <label htmlFor="inputEmail" className="form-label">
+            Email address
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(evt) => setEmail(evt.target.value)}
+            className="form-control"
+            id="inputEmail"
+            placeholder="Email address"
+            required
+            autoFocus
+          />
+        </fieldset>
+        <fieldset className="mb-3">
+          <label htmlFor="inputPassword" className="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(evt) => setPassword(evt.target.value)}
+            className="form-control"
+            id="inputPassword"
+            placeholder="Password"
+            required
+            autoFocus
+          />
+        </fieldset>
+        <fieldset>
+          <button type="submit" className="btn btn-primary">
+            Sign in
+          </button>
+        </fieldset>
+      </form>
       <section className="link--register">
         <Link to="/register">Not a member yet?</Link>
       </section>
-    </main>
+    </section>
+  </main>
+  
   );
 };

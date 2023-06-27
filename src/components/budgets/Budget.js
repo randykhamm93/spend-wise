@@ -44,8 +44,12 @@ export const Budget = () => {
     fetch(`http://localhost:8088/expenses?userId=${spendWiseUserObject.id}`)
       .then(response => response.json())
       .then(data => {
-        setExpenses(data);
-        const total = data.reduce((sum, expense) => sum + Number(expense.amount), 0);
+        const monthlyExpenses = data.map(expense => ({
+          ...expense,
+          amount: calculateMonthlyExpenses(Number(expense.amount), expense.expenseFrequencyId)
+        }));
+        setExpenses(monthlyExpenses);
+        const total = monthlyExpenses.reduce((sum, expense) => sum + Number(expense.amount), 0);
         setTotalExpenses(total);
       });
   }, [spendWiseUserObject.id]);
@@ -70,6 +74,21 @@ export const Budget = () => {
   };
 
   const calculateMonthlyIncome = (amount, frequencyId) => {
+    switch (frequencyId) {
+      case 1: // Weekly
+        return amount * 4;
+      case 2: // Bi-Weekly
+        return amount * 2;
+      case 3: // Monthly
+        return amount;
+      case 4: // Annually
+        return amount / 12;
+      default:
+        return amount;
+    }
+  };
+
+  const calculateMonthlyExpenses = (amount, frequencyId) => {
     switch (frequencyId) {
       case 1: // Weekly
         return amount * 4;

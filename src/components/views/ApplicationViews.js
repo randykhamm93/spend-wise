@@ -7,7 +7,7 @@ export const ApplicationViews = () => {
   return (
     <>
       <div className="logo-heading">
-      <h1 className="">SpendWise</h1>
+      <h1 className="">$pendWise</h1>
       <div className="logo-slogan">Budgeting Made Simple</div>
       </div>
       <Routes>

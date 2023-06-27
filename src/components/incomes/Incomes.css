@@ -1,11 +1,20 @@
 .income-form-container {
-  margin: 100px; 
-  margin-right: auto;
+  margin: auto;
+  width: 35%;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
 }
 
 .income-list-container {
-  margin: 100px;
-  margin-right: 110px;
+  margin: auto;
+  width: 60%;
 }
 
+th {
+  text-align: center;
+}
 
+h2 {
+  text-align: center;
+  padding: 1rem;
+}

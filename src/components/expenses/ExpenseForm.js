@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
 
-export const ExpenseForm = ({ onAddExpense, expenseCategories, selectedExpense,
- onEditExpense }) => {
+export const ExpenseForm = ({ onAddExpense, expenseFrequencies, expenseCategories, selectedExpense, onEditExpense }) => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
+  const [frequencyId, setFrequencyId] = useState("");
   const [categoryId, setCategoryId] = useState("");
 
   useEffect(() => {
     if (selectedExpense) {
       setName(selectedExpense.name);
       setAmount(selectedExpense.amount);
+      setFrequencyId(selectedExpense.expenseFrequencyId);
       setCategoryId(selectedExpense.expenseCategoryId);
     } else {
       setName("");
       setAmount("");
+      setFrequencyId("");
       setCategoryId("");
     }
   }, [selectedExpense]);
@@ -25,6 +27,7 @@ export const ExpenseForm = ({ onAddExpense, expenseCategories, selectedExpense,
     const newExpense = {
       name,
       amount,
+      expenseFrequencyId: frequencyId,
       expenseCategoryId: categoryId
     };
   
@@ -39,6 +42,7 @@ export const ExpenseForm = ({ onAddExpense, expenseCategories, selectedExpense,
     // Reset the form fields
     setName("");
     setAmount("");
+    setFrequencyId("");
     setCategoryId("");
   };
   
@@ -62,6 +66,19 @@ export const ExpenseForm = ({ onAddExpense, expenseCategories, selectedExpense,
         required
         className="form-control"
       />
+      <select
+        value={frequencyId}
+        onChange={(e) => setFrequencyId(e.target.value)}
+        required
+        className="form-control"
+      >
+        <option value="">Select frequency</option>
+        {expenseFrequencies.map((frequency) => (
+          <option key={frequency.id} value={frequency.id}>
+            {frequency.name}
+          </option>
+        ))}
+      </select>
       <select
         value={categoryId}
         onChange={(e) => setCategoryId(e.target.value)}

@@ -10,7 +10,7 @@ export const IncomeContainer = () => {
   const [selectedIncome, setSelectedIncome] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
 
-
+  
   const localSpendWiseUser = localStorage.getItem("spend_wise_user");
   const spendWiseUserObject = JSON.parse(localSpendWiseUser);
 
