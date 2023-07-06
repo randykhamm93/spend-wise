@@ -23,7 +23,7 @@ export const Login = () => {
             })
           );
 
-          navigate("/budget");
+          navigate("/overview");
         } else {
           window.alert("Invalid login");
         }
@@ -33,9 +33,9 @@ export const Login = () => {
   return (
     <main className="container d-flex justify-content-center align-items-center">
     <section>
-      <form className="form--login" onSubmit={handleLogin}>
-        <h1 className="mb-4">Welcome to $pendWise</h1>
-        <h2>Please sign in</h2>
+    <form className="form--login" onSubmit={handleLogin}>
+      <h1 className="mb-4">Welcome to <span className="green-dollar">$</span>pendWise</h1>
+      <h2>Please sign in</h2>
         <fieldset className="mb-3">
           <label htmlFor="inputEmail" className="form-label">
             Email address

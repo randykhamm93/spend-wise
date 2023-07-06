@@ -8,14 +8,14 @@ export const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark navbar-expand-sm">
       <div className="container">
-        <Link className="navbar-brand" to="/budget">
-          $pendWise
+        <Link className="navbar-brand" to="/overview">
+        <span className="green-dollar">$</span>pendWise
         </Link>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link className="nav-link" to="/budget">
-                Budget
+              <Link className="nav-link" to="/overview">
+                Overview
               </Link>
             </li>
             <li className="nav-item">

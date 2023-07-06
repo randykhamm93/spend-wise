@@ -1,12 +1,13 @@
 .income-form-container {
   margin: auto;
-  width: 35%;
-  margin-top: 4rem;
-  margin-bottom: 4rem;
+  width: 30%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .income-list-container {
   margin: auto;
+  margin-bottom: 2rem;
   width: 60%;
 }
 

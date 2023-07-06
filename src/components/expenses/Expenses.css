@@ -1,12 +1,13 @@
 .expense-form-container {
   margin: auto;
   width: 30%;
-  margin-top: 4rem;
-  margin-bottom: 4rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .expense-list-container {
   margin: auto;
+  margin-bottom: 2rem;
   width: 60%;
 }
 

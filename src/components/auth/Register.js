@@ -8,6 +8,7 @@ export const Register = (props) => {
     email: "",
     password: "",
   });
+  
   let navigate = useNavigate();
 
   const registerNewUser = () => {
@@ -57,9 +58,9 @@ export const Register = (props) => {
   return (
     <main className="container d-flex justify-content-center align-items-center">
       <form className="form--login" onSubmit={handleRegister}>
-      <h1 className="mb-4">$pendWise</h1>
+      <h1 className="mb-4">Welcome to <span className="green-dollar">$</span>pendWise</h1>
         <h1 className="h3 mb-3 font-weight-normal">
-          Please Register for $pendWise
+          Please Register
         </h1>
         <fieldset className="mb-3">
           <label htmlFor="fullName" className="form-label">

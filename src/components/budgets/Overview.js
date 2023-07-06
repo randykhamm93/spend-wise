@@ -3,7 +3,7 @@ import { Doughnut } from 'react-chartjs-2';
 import { useNavigate } from 'react-router-dom';
 import { Chart, ArcElement, Tooltip, Title, Legend, DoughnutController } from 'chart.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Budget.css'
+import './Overview.css'
 
 Chart.register(ArcElement, Tooltip, Title, Legend, DoughnutController);
 
@@ -165,6 +165,4 @@ export const Budget = () => {
       </div>
     </div>
   );
-  
-  
 };
