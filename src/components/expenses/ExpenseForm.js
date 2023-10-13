@@ -49,7 +49,7 @@ export const ExpenseForm = ({ onAddExpense, expenseFrequencies, expenseCategorie
 
   return (
     <form onSubmit={handleSubmit} className="form-group">
-      <h2>Add an Expense</h2>
+      <h2>Add Expenses</h2>
       <input
         type="text"
         value={name}
@@ -92,7 +92,7 @@ export const ExpenseForm = ({ onAddExpense, expenseFrequencies, expenseCategorie
           </option>
         ))}
       </select>
-      <button type="submit" className="btn btn-primary">
+      <button type="submit" className="btn btn-primary mt-3">
          {"Add Expense"}
       </button>
     </form>
